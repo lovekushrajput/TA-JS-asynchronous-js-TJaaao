@@ -2,84 +2,74 @@ let input = document.querySelector('input')
 let avatarImage = document.querySelector('.avatar')
 let avatarName = document.querySelector('h2')
 let userName = document.querySelector('a')
-let follower = document.querySelectorAll('.follower')
-let following = document.querySelectorAll('.following')
+let followers = document.querySelector('.follower')
+let followings = document.querySelector('.following')
 
 let catImage = document.querySelector('.cat')
 let button = document.querySelector('button')
 
 
+
+
+function fetch(url,successor){
+  let xhr = new XMLHttpRequest
+  xhr.open('GET',url)
+  xhr.onload = () =>  successor(JSON.parse(xhr.response))
+  xhr.onerror = function (){
+    console.error('Something went wrong!')
+  }
+  xhr.send()
+}
+
+
+
+//follower and following
+function common(url,root){
+  root.innerHTML = '';
+  fetch(url,function(followerList){
+    let topFive = followerList.slice(0,5)
+    topFive.forEach((info) => {
+      let li = document.createElement('li')
+      let img = document.createElement('img')
+      img.src = info.avatar_url
+      li.append(img)
+      root.append(li)
+    })
+  })
+
+}
+
 // user
-function createUI(data){
-avatarImage.src = data.avatar_url
-avatarName.innerText = data.name
-userName.innerText = `@${data.login}`
+function displayUI(userInfo){
+  console.log(userInfo)
+avatarImage.src = userInfo.avatar_url
+avatarName.innerText = userInfo.name
+userName.innerText = `@${userInfo.login}`
+ common(`https://api.github.com/users/${userInfo.login}/followers`,followers)
+ common(`https://api.github.com/users/${userInfo.login}/following`,followings)
 }
 
-//user-follower
-function createFollower (data2){
-for(let i=0 ; i<5;i++){
-    let r = data2[i].avatar_url 
-follower[i].src = r
-}
-}
 
-// user-following
-function createFollowing (data3){
-    for(let i=0 ; i<5;i++){
-        let s = data3[i].avatar_url 
-    following[i].src = s
-    }
-    }
+
 
 
 //handlekey
 function handleKey(event){
-  let user = event.target.value
-if(user!==''){
-  if(event.keyCode === 13){
-    let xhr = new XMLHttpRequest
-    xhr.open('GET',`https://api.github.com/users/${user}`)
-    xhr.onload = function (){
-        let userData = JSON.parse(xhr.response)
-        createUI(userData)
-    }
-    xhr.send()
-
-    let  xhrFollower = new XMLHttpRequest
-     xhrFollower.open('GET',`https://api.github.com/users/${event.target.value}/followers`)
-     xhrFollower.addEventListener('load',()=>{
-        let userData2 = JSON.parse( xhrFollower.response)
-        createFollower(userData2)
-    })
-    xhrFollower.send()
-
-
-    let  xhrFollowing = new XMLHttpRequest
-    xhrFollowing.open('GET',`https://api.github.com/users/${event.target.value}/following`)
-    xhrFollowing.addEventListener('load',()=>{
-       let userData3 = JSON.parse( xhrFollowing.response)
-       createFollowing(userData3)
-   })
-   xhrFollowing.send()
+  if(event.keyCode === 13 && event.target.value){
+    let userData = event.target.value
+    let url = "https://api.github.com/users/"
+    fetch(url + userData , displayUI)
     event.target.value = ''
-  }
 }
 }
-
 input.addEventListener('keyup',handleKey)
 
 
-//
-
+//cat
 button.addEventListener('click',()=>{
-    let xhrCat = new XMLHttpRequest
-    xhrCat.open('GET','https://api.thecatapi.com/v1/images/search?limit=1&size=full')
-    xhrCat.onload = function (){
-      let cat = JSON.parse(xhrCat.response)
-      cat.forEach((elm)=>{
-        catImage.src = elm.url
-      })
-    }
-    xhrCat.send()
+  fetch('https://api.thecatapi.com/v1/images/search?limit=1&size=full',function(cat){
+    cat.forEach((elm)=>{
+      catImage.src = elm.url
+    })
+  })
 })
