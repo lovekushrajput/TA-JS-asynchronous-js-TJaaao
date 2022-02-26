@@ -75,7 +75,7 @@ main{
     max-width: 800px;
     padding: 0 32px;
     margin: 0 auto;
-    background-color: rgb(241,222,184);
+    background-color: rgb(241,217,172);
 }
 section{
     text-align: center;
@@ -105,21 +105,20 @@ a{
     font-size: 1rem;
     color: black;
     text-align: center;
+    margin-bottom: 0.5rem;
 }
 
 
 /* followers and following */
-.user-friends{
-    margin-top: 1rem;
-}
-.user-friends img{
+li img{
+    display: flex;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
   border: 1px solid black;
   box-sizing: border-box;
 }
-span{
+p{
     font-size: 1.2rem;
     font-weight: 600;
     padding-right: 0.5rem;
@@ -127,6 +126,7 @@ span{
 
 hr{
     border: 0.01px dotted rgb(181, 181, 245);
+    width: 100%;
 }
 
 h3{
