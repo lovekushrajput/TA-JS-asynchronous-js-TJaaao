@@ -1,0 +1,104 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/* custom */
+body{
+    font-family: 'Roboto',sans-serif;
+    background-color: wheat;
+}
+.center{
+    text-align: center;
+}
+header{
+    font-size: 2rem;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.7rem;
+}
+.container{
+    max-width: 1000px;
+    padding: 0 2rem;
+    margin: 0 auto;
+}
+input{
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 1.2rem;
+}
+ input:focus{
+     outline-color: rgb(33,95,197);
+ }
+
+ul{
+    display: grid;
+    grid-template-columns:  repeat(4, 1fr);
+    row-gap: 1rem;
+margin-bottom: 2rem;
+}
+
+li img{
+    width: 90%;
+}
+@media screen and (max-width:768px) {
+   ul{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       width: 100%;
+   }
+   img{
+       width: 100%;
+       margin-bottom: 0;
+   }
+   input{
+       text-align: center;
+   }
+}
