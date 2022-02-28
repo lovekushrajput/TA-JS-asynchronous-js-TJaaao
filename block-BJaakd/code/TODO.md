@@ -3,10 +3,8 @@
 ```js
 // Your code
 let data = new Promise((resolve,reject)=> 
-setTimeout( 
-    ()=> resolve('Promise Resolved!')
-    ,1000))
-    .then((info)=> console.log(info))
+setTimeout( ()=> resolve('Promise Resolved!'),1000))
+    data.then(console.log)
 ```
 
 2. Create another promise. Now have it reject with a value of `Rejected Promise!` without using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch`
@@ -14,10 +12,9 @@ setTimeout(
 ```js
 // Your code
 let data = new Promise((resolve,reject) => 
-setTimeout(
-    ()=>reject(`Rejected Promise!`)
-    ,1000))
-    .catch((error)=> console.log(error))
+setTimeout(()=>reject(`Rejected Promise!`)
+    ,1000));
+    data.catch(console.log)
 ```
 
 3. Create another promise. Now have it reject with a value of `Rejected Promise!` without using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch` and also use `.finally` to log message `Promise Settled!`.
@@ -25,8 +22,8 @@ setTimeout(
 ```js
 // Your code
 let data = new Promise((resolve,reject) => reject(`Rejected Promise!`))
-    .catch((error)=> console.log(error))
-    .finally((finalValue)=> console.log(finalValue))
+    data.catch(console.log)
+    .finally(()=>console.log(`Promise Settled!`))
 ```
 
 4. What will be the output of the code below.
@@ -58,6 +55,7 @@ function wait(time){
 }
 
 let data = wait(3000)
+data.then(console.log)
 ```
 
 6. Do the following:
@@ -76,7 +74,7 @@ let data = Promise.resolve(21)
 .then((value2)=> value2 + 100)
 .then((value3)=> {
     if(value3>100){
-        throw 'something went wrong'
+        throw new Error ('something went wrong')
     }
 })
 .catch(console.error)
@@ -93,15 +91,11 @@ let data = Promise.resolve(21)
 ```js
 // Your code
 let data = new Promise((resolve,reject)=> resolve(['A']))
-.then((value)=> value + 'B')
-.then((value2)=> {
-    let store = value2.split('')
-let obj = {}
-for(let i = 0; i < store.length; i++){
-    obj[i]=rt[i]
-}
-    return obj
-})
+.then((value)=> value.concat('B'))
+.then((value2)=>  value2.reduce((acc,cv,index)=>{
+    acc[index]=cv
+    return acc
+},{}))
 .then((value3)=> console.log(value3))
 ```
 
@@ -118,15 +112,15 @@ let first  = new Promise((resolve,reject)=>resolve(1))
 first
 .then((value)=> {
     console.log(value)
-    return value+1
+    return 2
 })
 .then((value2)=> {
     console.log(value2)
-    return value2 + 1
+    return 3
 })
 .then((value3)=> {
     console.log(value3)
-    return value3 + 1
+    return 4
 })
 
 ```
@@ -141,20 +135,17 @@ first
 ```js
 // Your code
 let first  = new Promise((resolve,reject)=>resolve(1))
-first
-.then((value)=> {
+first.then((value)=> {
     console.log(value)
-    return value+1
-})
-first
-.then((value2)=> {
+    return 2
+});
+first.then((value2)=> {
     console.log(value2)
-    return value2 + 2
-})
-first
-.then((value3)=> {
+    return 3
+});
+first.then((value3)=> {
     console.log(value3)
-    return value3 + 3
+    return 4
 })
 ```
 
@@ -175,10 +166,15 @@ but
 ```js
 // Your code
 let data = new Promise((resolve,reject)=> resolve('John'))
-.then(()=> 'Arya')
 .then((value)=> {
     console.log(value) 
-        return 'Bran'
+    return Promise.resolve('Arya')
 })
-.then((value2)=> console.log(value2))
+.then((value2)=>{
+    console.log(value2)
+    return new Promise((res,rej)=> 
+    setTimeout(()=>res('Bran')
+    ,2000))
+})
+.then((value3)=> console.log(value3))
 ```
