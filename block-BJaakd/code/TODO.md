@@ -2,18 +2,31 @@
 
 ```js
 // Your code
+let data = new Promise((resolve,reject)=> 
+setTimeout( 
+    ()=> resolve('Promise Resolved!')
+    ,1000))
+    .then((info)=> console.log(info))
 ```
 
 2. Create another promise. Now have it reject with a value of `Rejected Promise!` without using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch`
 
 ```js
 // Your code
+let data = new Promise((resolve,reject) => 
+setTimeout(
+    ()=>reject(`Rejected Promise!`)
+    ,1000))
+    .catch((error)=> console.log(error))
 ```
 
 3. Create another promise. Now have it reject with a value of `Rejected Promise!` without using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch` and also use `.finally` to log message `Promise Settled!`.
 
 ```js
 // Your code
+let data = new Promise((resolve,reject) => reject(`Rejected Promise!`))
+    .catch((error)=> console.log(error))
+    .finally((finalValue)=> console.log(finalValue))
 ```
 
 4. What will be the output of the code below.
@@ -22,18 +35,29 @@
 console.log('A');
 
 // Asynchronous code finises in 0 seconds (Callback Queue)
-setTimeout(() => console.log('B'), 0); // callback queue
+setTimeout(() => console.log('B'), 0); // callback queue 
 
 // A promise that resolves right away (Microtask Queue)
 Promise.resolve().then(() => console.log('C'));
 
 console.log('D');
+
+
+// A (after 0ms)
+// D(after 1ms)
+// C(after 2ms)
+// B(after 3ms)
 ```
 
 5. Write a function named `wait` that accepts `time` in ms returns a promise. The promise gets resolved after given time.
 
 ```js
 // Your code
+function wait(time){
+    return new Promise((resolve,reject)=> setTimeout(()=> resolve(`Promise is resolve in ${time}ms`), time))
+}
+
+let data = wait(3000)
 ```
 
 6. Do the following:
@@ -47,6 +71,15 @@ console.log('D');
 
 ```js
 // Your code
+let data = Promise.resolve(21)
+.then((value)=> value + 10)
+.then((value2)=> value2 + 100)
+.then((value3)=> {
+    if(value3>100){
+        throw 'something went wrong'
+    }
+})
+.catch(console.error)
 ```
 
 7. Do the following:
@@ -59,6 +92,17 @@ console.log('D');
 
 ```js
 // Your code
+let data = new Promise((resolve,reject)=> resolve(['A']))
+.then((value)=> value + 'B')
+.then((value2)=> {
+    let store = value2.split('')
+let obj = {}
+for(let i = 0; i < store.length; i++){
+    obj[i]=rt[i]
+}
+    return obj
+})
+.then((value3)=> console.log(value3))
 ```
 
 8. Do the following:
@@ -70,6 +114,21 @@ console.log('D');
 
 ```js
 // Your code
+let first  = new Promise((resolve,reject)=>resolve(1))
+first
+.then((value)=> {
+    console.log(value)
+    return value+1
+})
+.then((value2)=> {
+    console.log(value2)
+    return value2 + 1
+})
+.then((value3)=> {
+    console.log(value3)
+    return value3 + 1
+})
+
 ```
 
 9. Do the following:
@@ -81,9 +140,30 @@ console.log('D');
 
 ```js
 // Your code
+let first  = new Promise((resolve,reject)=>resolve(1))
+first
+.then((value)=> {
+    console.log(value)
+    return value+1
+})
+first
+.then((value2)=> {
+    console.log(value2)
+    return value2 + 2
+})
+first
+.then((value3)=> {
+    console.log(value3)
+    return value3 + 3
+})
 ```
 
 10. Try to understand the difference between the problem 8 and 9. Write your observation.
+```js
+- In problem 8 we are return a new promise everytime 
+but
+- In problem 9 we are using only one promise and solving problems
+```
 
 11. Do the following
 
@@ -94,4 +174,11 @@ console.log('D');
 
 ```js
 // Your code
+let data = new Promise((resolve,reject)=> resolve('John'))
+.then(()=> 'Arya')
+.then((value)=> {
+    console.log(value) 
+        return 'Bran'
+})
+.then((value2)=> console.log(value2))
 ```
