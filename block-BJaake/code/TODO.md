@@ -8,12 +8,13 @@
 - Selecting any specific news source will display news from that specific source only.
 
 - Use browser function `fetch` to get data
+<!-- ?filters[newsSite][$eq]=NASA -->
 
 ## API Details:
 
 - `https://api.spaceflightnewsapi.net/v3/articles?_limit=30`
 
-For more information you can check [Spaceflight News API](https://spaceflightnewsapi.net/) website.
+For more information you can check [Spaceflight News API](https://spaceflightnewsapi.net) website.
 
 ## DEMO
 
