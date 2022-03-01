@@ -1,6 +1,6 @@
 let select = document.querySelector('select')
 let root =  document.querySelector('ul')
-
+let allNews = []
 
 
 
@@ -30,23 +30,34 @@ function displayUI(newsInfo){
 }
 
 
+function displayOptions(sources){
+sources.forEach((source)=>{
+  let options = document.createElement('option')
+  options.innerText = source
+  options.value = source
+  select.append(options)
+})
+}
+
 let data =  fetch(`https://api.spaceflightnewsapi.net/v3/articles?_limit=30`)
 .then(res=> res.json())
 .then(newsList=>{
-  //default
+  allNews = newsList
 displayUI(newsList)
-
-//addevent listener
-  select.addEventListener('change',()=>{
-    let value = select.options[select.selectedIndex].text
-    if(value=== 'Select a news source'){
-      displayUI(newsList)
-    }else{
-      let filterData = newsList.filter(obj=> obj.newsSite.includes(value)) 
-      displayUI(filterData)
-    }
+let allSource = Array.from(new Set( newsList.map( (n) => n.newsSite) ))
+displayOptions(allSource)
   })
-  })
-  .catch(()=>'Something went wrong ☠️')
 
 
+select.addEventListener('change',(e)=>{
+let value = e.target.value
+let filterNews
+if(value==='Select a news source'){
+  filterNews = allNews;
+  displayUI(filterNews);
+}else{
+  filterNews= allNews.filter((news)=> news.newsSite=== value);
+  displayUI(filterNews);
+}
+
+})
