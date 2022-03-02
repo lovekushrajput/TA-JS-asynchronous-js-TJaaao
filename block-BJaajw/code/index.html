@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>News App</title>
     <link rel="stylesheet" href="style.css" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -15,16 +15,25 @@
       <h1>Space News Everywhere</h1>
     </header>
     <main class="container">
-        <div class="loader loader-default is-active" data-text data-blink></div>
-      <section class="section">
-        <select>
-          <option>Select a news source</option>
-        </select>
-      </section>
+      <!-- loader-icon -->
+      <div class="loader loader-default is-active" data-text data-blink></div>
 
-      <section>
+      <!-- handle error -->
+      <div class="error"></div>
+
+      <!-- main -->
+      <div class="main">
+           <!-- options -->
+
+        <section class="section">
+            <select>
+                <option>Select a news source</option>
+            </select>
+      
+        </section>
+        <!-- fetch function UI -->
         <ul></ul>
-      </section>
+      </div>
     </main>
 
     <script src="index.js"></script>
