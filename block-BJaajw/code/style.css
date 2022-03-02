@@ -206,7 +206,14 @@ a {
   background-color: black;
   cursor: pointer;
 }
-
+.error{
+    color: red;
+    margin-top: 4rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    display: none;
+}
 .loader {
   color: #fff;
   position: fixed;
