@@ -1,0 +1,299 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/* Custom */
+body {
+  background-color: wheat;
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+  padding: 1rem;
+  background-color: black;
+}
+.container {
+  max-width: 900px;
+  padding: 0 2rem;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+  font-weight: 600;
+}
+.section {
+  margin: 1.3rem 0;
+  text-align: center;
+}
+
+select {
+  padding: 0.6rem 0.2rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+select:focus {
+  outline-color: rgb(91, 152, 247);
+}
+ul {
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+li {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+h2 {
+  background-color: rgb(59, 130, 130);
+  color: white;
+  display: inline-block;
+  padding: 0.3rem 0.4rem;
+  border-radius: 1rem;
+  text-transform: uppercase;
+}
+p {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 1.6rem 0;
+  color: black;
+}
+img {
+  width: 30%;
+}
+.box {
+  width: 68%;
+}
+.button {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+a {
+  text-decoration: none;
+  padding: 0.3rem 0.4rem;
+  color: white;
+  background-color: black;
+  cursor: pointer;
+}
+.error{
+    color: red;
+    margin-top: 4rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    display: none;
+}
+.loader {
+  color: #fff;
+  position: fixed;
+  box-sizing: border-box;
+  left: -9999px;
+  top: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: 999999;
+}
+.loader:after,
+.loader:before {
+  box-sizing: border-box;
+  display: none;
+}
+.loader.is-active {
+  background-color: rgba(0, 0, 0, 0.85);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+.loader.is-active:after,
+.loader.is-active:before {
+  display: block;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+@keyframes blink {
+  0% {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.loader[data-text]:before {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  color: currentColor;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+}
+.loader[data-text='']:before {
+  content: 'Loading';
+}
+.loader[data-text]:not([data-text='']):before {
+  content: attr(data-text);
+}
+.loader[data-text][data-blink]:before {
+  animation: blink 1s linear infinite alternate;
+}
+.loader-default[data-text]:before {
+  top: calc(50% - 63px);
+}
+.loader-default:after {
+  content: '';
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  border: 8px solid #fff;
+  border-left-color: transparent;
+  border-radius: 50%;
+  top: calc(50% - 24px);
+  left: calc(50% - 24px);
+  animation: rotation 1s linear infinite;
+}
+.loader-default[data-half]:after {
+  border-right-color: transparent;
+}
+.loader-default[data-inverse]:after {
+  animation-direction: reverse;
+}
