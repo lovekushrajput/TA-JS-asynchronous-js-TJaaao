@@ -1,38 +1,31 @@
-let inputMain = document.querySelector('input');
+(function(){
+  let inputMain = document.querySelector('input');
 let root = document.querySelector('ul');
 
 let baseURL = 'https://basic-todo-api.vercel.app/api/todo';
 
 //DELETE
-function delet(event, id) {
+function handleDelete(id) {
   fetch(baseURL + `/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
-  });
-
-  //   deleting li
-  event.target.parentElement.remove();
+  })
+    .then(() => {
+      init();
+    })
+    .catch((error) => {
+      root.innerText = error;
+      rootStyle();
+    });
 }
 
-// handledelete
-function handleDelete(event, todos) {
-  let value = event.target.parentElement.children[1].innerText;
-
-  let filterArr = todos.filter((elm) => {
-    return elm.title.includes(value);
-  });
-
-  delet(event, filterArr[0]._id);
-}
-
-//PUT
-function put(check, id) {
-  console.log(check.checked);
+// handlecheck
+function handleCheckBox(id, status) {
   let data = {
     todo: {
-      isCompleted: `${check.checked}`,
+      isCompleted: !status,
     },
   };
   fetch(baseURL + `/${id}`, {
@@ -41,54 +34,40 @@ function put(check, id) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  });
+  })
+    .then(() => {
+      init();
+    })
+    .catch((error) => {
+      root.innerText = error;
+      rootStyle();
+    });
 }
 
-// handlecheck
-function handleCheckBox(event, todos) {
-  let box = event.target.parentElement.children[0];
-
-  let value = event.target.parentElement.children[1].innerText;
-
-  let filterArr = todos.filter((elm) => {
-    return elm.title.includes(value);
-  });
-  put(box, filterArr[0]._id);
-}
-
-function handleDbl(event, info, todos) {
+// handleEdit
+function handleEdit(event, id, info) {
   let elm = event.target;
   let input = document.createElement('input');
   input.type = 'text';
   input.value = info;
   input.addEventListener('keyup', (e) => {
     if (e.keyCode === 13) {
-      let value = event.target.innerText;
       let updated = e.target.value;
-
-      let filterArr = todos.filter((elm) => {
-        return elm.title.includes(value);
-      });
       let data = {
         todo: {
-          title: `${updated}`,
+          title: updated,
         },
       };
-      fetch(baseURL + `/${filterArr[0]._id}`, {
+      fetch(baseURL + `/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw new Error(`response is not ok ${res.status}`);
-          }
+        .then(() => {
+          init();
         })
-        .then((todoList) => displayUI(todoList.todos))
         .catch((error) => {
           root.innerText = error;
           rootStyle();
@@ -102,65 +81,57 @@ function handleDbl(event, info, todos) {
 // creat UI
 function displayUI(todos) {
   root.innerHTML = '';
-  todos.map((todo) => {
+  todos.forEach((todo) => {
     // console.log(todo)
     let li = document.createElement('li');
-    li.classList = 'li';
     let checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
-    checkBox.addEventListener('change', (event) =>
-      handleCheckBox(event, todos)
+    checkBox.checked = todo.isCompleted;
+    checkBox.setAttribute('data-id', todo._id);
+    checkBox.addEventListener('change', () =>
+      handleCheckBox(todo._id, todo.isCompleted)
     );
     let p = document.createElement('p');
     p.innerText = todo.title;
     p.addEventListener('dblclick', (event) =>
-      handleDbl(event, todo.title, todos)
+      handleEdit(event, todo._id, todo.title)
     );
     let small = document.createElement('small');
     small.innerText = '❌';
     small.style.cursor = 'pointer';
-    small.addEventListener('click', (event) => handleDelete(event, todos));
+    small.setAttribute('data-id', todo._id);
+    small.addEventListener('click', () => handleDelete(todo._id));
     li.append(checkBox, p, small);
     root.append(li);
   });
-}
-
-//POST
-function post(val) {
-  let data = {
-    todo: {
-      title: val,
-      isCompleted: false,
-    },
-  };
-
-  fetch(baseURL, {
-    method: 'POST', //* GET, POST, PUT, DELETE, etc.
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(`response is not ok ${res.status}`);
-      }
-    })
-    .then((todoList) => displayUI(todoList.todos))
-    .catch((error) => {
-      root.innerText = error;
-      rootStyle();
-    });
 }
 
 //handle input
 function handleInput(event) {
   if (inputMain.value) {
     if (event.keyCode === 13) {
-      post(inputMain.value);
-      inputMain.value = '';
+      let data = {
+        todo: {
+          title: inputMain.value,
+          isCompleted: false,
+        },
+      };
+
+      fetch(baseURL, {
+        method: 'POST', //* GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(() => {
+          inputMain.value = '';
+          init();
+        })
+        .catch((error) => {
+          root.innerText = error;
+          rootStyle();
+        });
     }
   }
 }
@@ -195,3 +166,5 @@ function rootStyle() {
   root.style.fontWeight = '600';
   root.style.marginTop = '0.6rem';
 }
+
+})()
